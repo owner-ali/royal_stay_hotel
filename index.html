@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RoyalStay Hotels — Experience Luxury Beyond Expectations</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--gold:#C9A84C;--gold-light:#E8C97A;--gold-dark:#9A7B2E;
+--dark:#0A0A0F;--dark2:#0F0F1A;--dark3:#14142A;--dark4:#1A1A35;
+--glass:rgba(255,255,255,0.04);--glass2:rgba(255,255,255,0.08);
+--glass-border:rgba(201,168,76,0.2);
+--text:#F0EAD6;--text-muted:rgba(240,234,214,0.6);--text-dim:rgba(240,234,214,0.35)
+}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:var(--text);font-family:'Montserrat',sans-serif;overflow-x:hidden}
+.display{font-family:'Cormorant Garamond',serif}
+
+/* NAV */
+nav{position:fixed;top:0;width:100%;z-index:1000;padding:1.2rem 4rem;display:flex;align-items:center;justify-content:space-between;transition:all .4s;background:rgba(10,10,15,0)}
+nav.scrolled{background:rgba(10,10,15,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border)}
+.nav-logo{display:flex;flex-direction:column;line-height:1}
+.nav-logo-main{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--gold);letter-spacing:3px}
+.nav-logo-sub{font-size:0.6rem;font-weight:300;letter-spacing:6px;color:var(--text-muted);text-transform:uppercase}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{color:var(--text-muted);text-decoration:none;font-size:0.72rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;transition:color .3s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a:hover::after{width:100%}
+.nav-book-btn{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:.55rem 1.6rem;font-size:0.68rem;font-weight:500;letter-spacing:3px;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:'Montserrat',sans-serif}
+.nav-book-btn:hover{background:var(--gold);color:var(--dark)}
+
+/* HERO */
+#hero{position:relative;height:100vh;display:flex;align-items:center;overflow:hidden}
+#hero-canvas{position:absolute;inset:0;z-index:1}
+.hero-bg{position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 80% 60% at 60% 40%,rgba(201,168,76,0.06) 0%,transparent 70%)}
+.hero-content{position:relative;z-index:10;padding:0 4rem;max-width:700px}
+.hero-eyebrow{font-size:0.65rem;font-weight:500;letter-spacing:6px;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem}
+.hero-eyebrow::before{content:'';display:block;width:2rem;height:1px;background:var(--gold)}
+.hero-headline{font-family:'Cormorant Garamond',serif;font-size:clamp(3rem,6vw,5.5rem);font-weight:300;line-height:1.05;color:var(--text);margin-bottom:1.5rem}
+.hero-headline em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:0.82rem;font-weight:300;color:var(--text-muted);line-height:1.9;max-width:480px;margin-bottom:3rem;letter-spacing:.5px}
+.hero-btns{display:flex;gap:1.2rem;flex-wrap:wrap}
+.btn-primary{background:var(--gold);color:var(--dark);padding:.85rem 2.5rem;font-size:0.7rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;transition:all .3s;font-family:'Montserrat',sans-serif;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
+.btn-primary:hover{background:var(--gold-light);transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--text);padding:.85rem 2.5rem;font-size:0.7rem;font-weight:500;letter-spacing:3px;text-transform:uppercase;border:1px solid rgba(240,234,214,0.3);cursor:pointer;transition:all .3s;font-family:'Montserrat',sans-serif}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.hero-scroll{position:absolute;bottom:2.5rem;left:4rem;z-index:10;display:flex;align-items:center;gap:1rem;font-size:0.62rem;letter-spacing:4px;text-transform:uppercase;color:var(--text-dim)}
+.scroll-line{width:3rem;height:1px;background:var(--gold-dark);position:relative;overflow:hidden}
+.scroll-line::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:1px;background:var(--gold);animation:scrollAnim 2s infinite}
+@keyframes scrollAnim{to{left:100%}}
+.hero-stats{position:absolute;right:4rem;bottom:3rem;z-index:10;display:flex;gap:3rem}
+.hero-stat{text-align:center}
+.hero-stat-num{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;color:var(--gold);line-height:1}
+.hero-stat-label{font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-top:.3rem}
+
+/* FLOATING ICONS */
+.float-icon{position:absolute;z-index:5;opacity:0;animation:floatIn .8s forwards, float 6s ease-in-out infinite}
+@keyframes floatIn{to{opacity:0.7}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-15px) rotate(3deg)}}
+.fi1{top:20%;right:15%;animation-delay:.5s,0s;font-size:2.5rem}
+.fi2{top:35%;right:28%;animation-delay:1s,1s;font-size:1.8rem}
+.fi3{bottom:30%;right:10%;animation-delay:1.5s,2s;font-size:2rem}
+
+/* GOLD DIVIDER */
+.gold-divider{width:100%;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);margin:0}
+
+/* STATS BAR */
+.stats-bar{background:var(--dark2);border-top:1px solid var(--glass-border);border-bottom:1px solid var(--glass-border);padding:3rem 4rem;display:flex;justify-content:space-around;align-items:center}
+.stat-item{text-align:center}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:var(--gold);line-height:1}
+.stat-plus{color:var(--gold-light);font-size:2rem}
+.stat-label{font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--text-muted);margin-top:.5rem}
+.stat-sep{width:1px;height:4rem;background:var(--glass-border)}
+
+/* SECTION BASE */
+section{padding:7rem 4rem}
+.section-eyebrow{font-size:0.62rem;letter-spacing:6px;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.5rem);font-weight:300;color:var(--text);line-height:1.15;margin-bottom:1.5rem}
+.section-desc{font-size:0.82rem;color:var(--text-muted);line-height:1.9;max-width:560px;letter-spacing:.3px}
+
+/* ROOMS */
+#rooms{background:var(--dark3)}
+.rooms-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:4rem}
+.rooms-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem}
+.room-card{background:var(--dark2);border:1px solid var(--glass-border);overflow:hidden;transition:all .4s;cursor:pointer;position:relative;group:true}
+.room-card:hover{transform:translateY(-8px);border-color:var(--gold)}
+.room-card:hover .room-img-overlay{opacity:1}
+.room-img{width:100%;height:220px;object-fit:cover;background:var(--dark4);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.room-img-placeholder{font-size:4rem;opacity:.15}
+.room-img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(10,10,15,.9));opacity:.6;transition:opacity .3s}
+.room-badge{position:absolute;top:1rem;right:1rem;background:var(--gold);color:var(--dark);font-size:0.6rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:.35rem .8rem}
+.room-body{padding:1.5rem}
+.room-cat{font-size:0.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+.room-name{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:var(--text);margin-bottom:.8rem}
+.room-features{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.2rem}
+.room-feature{font-size:0.6rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);border:1px solid rgba(201,168,76,.15);padding:.25rem .65rem}
+.room-footer{display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:1px solid var(--glass-border)}
+.room-price{font-family:'Cormorant Garamond',serif}
+.room-price-amt{font-size:1.8rem;color:var(--gold);font-weight:300}
+.room-price-per{font-size:0.65rem;color:var(--text-dim);letter-spacing:1px}
+.room-book-btn{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:.45rem 1.2rem;font-size:0.62rem;font-weight:500;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;font-family:'Montserrat',sans-serif}
+.room-book-btn:hover{background:var(--gold);color:var(--dark)}
+
+/* FACILITIES */
+#facilities{background:var(--dark)}
+.fac-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-top:4rem}
+.fac-card{background:var(--glass);border:1px solid var(--glass-border);padding:2rem 1.5rem;transition:all .4s;position:relative;overflow:hidden;backdrop-filter:blur(10px)}
+.fac-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(201,168,76,.05),transparent);opacity:0;transition:opacity .4s}
+.fac-card:hover{border-color:var(--gold);transform:translateY(-5px)}
+.fac-card:hover::before{opacity:1}
+.fac-icon{font-size:2rem;margin-bottom:1.2rem;color:var(--gold)}
+.fac-name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;color:var(--text);margin-bottom:.5rem}
+.fac-desc{font-size:0.72rem;color:var(--text-dim);line-height:1.7;letter-spacing:.3px}
+
+/* 3D SECTION */
+#tour{background:var(--dark2);position:relative;overflow:hidden}
+#tour-canvas{position:absolute;inset:0;z-index:1}
+.tour-content{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.tour-features{margin-top:3rem;display:flex;flex-direction:column;gap:1.5rem}
+.tour-feat{display:flex;align-items:flex-start;gap:1rem}
+.tour-feat-dot{width:4px;height:4px;background:var(--gold);border-radius:50%;margin-top:.5rem;flex-shrink:0;box-shadow:0 0 8px var(--gold)}
+.tour-feat-text{font-size:0.78rem;color:var(--text-muted);line-height:1.8}
+.tour-feat-title{font-size:0.72rem;font-weight:600;color:var(--text);letter-spacing:1px;margin-bottom:.2rem;text-transform:uppercase}
+.tour-3d-label{position:absolute;z-index:3;font-size:0.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);opacity:.8}
+.tour-3d-label.tl{top:2rem;right:4rem}
+
+/* BOOKING */
+#booking{background:var(--dark3);padding:7rem 4rem}
+.booking-container{background:var(--dark2);border:1px solid var(--glass-border);padding:4rem;position:relative;overflow:hidden;max-width:1000px;margin:4rem auto 0}
+.booking-container::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.booking-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;margin-bottom:2rem}
+.booking-field{display:flex;flex-direction:column;gap:.5rem}
+.booking-label{font-size:0.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
+.booking-input{background:rgba(255,255,255,0.04);border:1px solid var(--glass-border);color:var(--text);padding:.85rem 1rem;font-size:0.8rem;font-family:'Montserrat',sans-serif;outline:none;transition:border .3s}
+.booking-input:focus{border-color:var(--gold)}
+.booking-input option{background:var(--dark2)}
+.booking-total{display:flex;align-items:center;justify-content:space-between;padding:1.5rem;background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.2);margin-bottom:1.5rem}
+.booking-total-label{font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted)}
+.booking-total-price{font-family:'Cormorant Garamond',serif;font-size:2.5rem;color:var(--gold);font-weight:300}
+.booking-nights{font-size:0.65rem;color:var(--text-dim)}
+
+/* TESTIMONIALS */
+#testimonials{background:var(--dark);padding:7rem 4rem}
+.test-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;margin-top:4rem}
+.test-card{background:var(--glass);border:1px solid var(--glass-border);padding:2.5rem;position:relative;backdrop-filter:blur(10px)}
+.test-card::before{content:'"';position:absolute;top:-1rem;left:2rem;font-family:'Cormorant Garamond',serif;font-size:8rem;color:var(--gold);opacity:.1;line-height:1}
+.stars{color:var(--gold);font-size:1rem;margin-bottom:1.2rem;letter-spacing:2px}
+.test-text{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;font-style:italic;color:var(--text);line-height:1.7;margin-bottom:1.5rem}
+.test-author{display:flex;align-items:center;gap:1rem}
+.test-avatar{width:2.8rem;height:2.8rem;border-radius:50%;background:var(--dark4);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--gold)}
+.test-name{font-size:0.78rem;font-weight:500;color:var(--text);margin-bottom:.1rem}
+.test-role{font-size:0.65rem;color:var(--text-dim);letter-spacing:1px}
+
+/* GALLERY */
+#gallery{background:var(--dark2);padding:7rem 4rem}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,180px);gap:1rem;margin-top:4rem}
+.gallery-item{background:var(--dark4);border:1px solid var(--glass-border);position:relative;overflow:hidden;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.gallery-item:first-child{grid-column:span 2;grid-row:span 2}
+.gallery-item:hover .gallery-overlay{opacity:1}
+.gallery-placeholder{font-size:3rem;opacity:.12;transition:opacity .3s}
+.gallery-item:hover .gallery-placeholder{opacity:.05}
+.gallery-overlay{position:absolute;inset:0;background:rgba(201,168,76,.08);opacity:0;transition:opacity .3s;border:1px solid var(--gold)}
+.gallery-label{position:absolute;bottom:1rem;left:1rem;font-size:0.6rem;letter-spacing:3px;text-transform:uppercase;color:rgba(201,168,76,.9);opacity:0;transition:opacity .3s}
+.gallery-item:hover .gallery-label{opacity:1}
+
+/* WHY US */
+#why{background:var(--dark3);padding:7rem 4rem}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;margin-top:4rem}
+.why-items{display:flex;flex-direction:column;gap:2rem}
+.why-item{display:flex;gap:1.5rem;align-items:flex-start;padding:1.5rem;border:1px solid transparent;transition:all .3s;cursor:default}
+.why-item:hover{background:var(--glass);border-color:var(--glass-border)}
+.why-icon{font-size:1.5rem;color:var(--gold);flex-shrink:0;width:3rem;height:3rem;border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center}
+.why-text-title{font-size:0.78rem;font-weight:600;color:var(--text);letter-spacing:1px;text-transform:uppercase;margin-bottom:.4rem}
+.why-text-desc{font-size:0.75rem;color:var(--text-dim);line-height:1.7}
+.why-visual{position:relative;height:500px}
+.why-visual-inner{position:absolute;inset:0;background:var(--dark4);border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.why-accent{position:absolute;width:200px;height:200px;border-radius:50%;background:radial-gradient(var(--gold-dark),transparent 70%);opacity:.15;filter:blur(40px)}
+
+/* CONTACT */
+#contact{background:var(--dark);padding:7rem 4rem}
+.contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:6rem;margin-top:4rem}
+.contact-info{display:flex;flex-direction:column;gap:2.5rem}
+.contact-item{display:flex;gap:1.2rem;align-items:flex-start}
+.contact-icon{font-size:1.2rem;color:var(--gold);margin-top:.2rem}
+.contact-item-title{font-size:0.65rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:.3rem}
+.contact-item-val{font-size:0.85rem;color:var(--text-muted);line-height:1.6}
+.contact-form{display:flex;flex-direction:column;gap:1.2rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem}
+.contact-input{background:var(--glass);border:1px solid var(--glass-border);color:var(--text);padding:.85rem 1rem;font-size:0.8rem;font-family:'Montserrat',sans-serif;outline:none;transition:border .3s;width:100%}
+.contact-input:focus{border-color:var(--gold)}
+textarea.contact-input{resize:vertical;min-height:120px}
+
+/* FOOTER */
+footer{background:var(--dark2);border-top:1px solid var(--glass-border);padding:5rem 4rem 2rem}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:4rem;margin-bottom:4rem}
+.footer-brand-name{font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--gold);letter-spacing:3px;margin-bottom:.5rem}
+.footer-brand-sub{font-size:0.6rem;letter-spacing:5px;text-transform:uppercase;color:var(--text-dim);margin-bottom:1.2rem}
+.footer-desc{font-size:0.75rem;color:var(--text-dim);line-height:1.8}
+.footer-title{font-size:0.62rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:.8rem}
+.footer-links a{font-size:0.75rem;color:var(--text-dim);text-decoration:none;transition:color .3s;letter-spacing:.5px}
+.footer-links a:hover{color:var(--gold)}
+.footer-newsletter{display:flex;gap:.5rem;margin-top:1rem}
+.footer-newsletter input{flex:1;background:var(--glass);border:1px solid var(--glass-border);color:var(--text);padding:.7rem 1rem;font-size:0.72rem;font-family:'Montserrat',sans-serif;outline:none}
+.footer-newsletter button{background:var(--gold);color:var(--dark);border:none;padding:.7rem 1.2rem;font-size:0.65rem;font-weight:600;letter-spacing:2px;cursor:pointer;font-family:'Montserrat',sans-serif}
+.footer-bottom{border-top:1px solid var(--glass-border);padding-top:2rem;display:flex;justify-content:space-between;align-items:center}
+.footer-copy{font-size:0.68rem;color:var(--text-dim);letter-spacing:.5px}
+.social-links{display:flex;gap:1rem}
+.social-link{width:2rem;height:2rem;border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:var(--text-dim);text-decoration:none;transition:all .3s}
+.social-link:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ANIMATIONS */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
+.reveal.visible{opacity:1;transform:none}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+.reveal-delay-4{transition-delay:.4s}
+
+@media(max-width:768px){
+nav{padding:1rem 1.5rem}
+.nav-links{display:none}
+section,#booking,#gallery,#testimonials,#contact,#why,#facilities,#rooms{padding:5rem 1.5rem}
+.stats-bar{padding:2.5rem 1.5rem;flex-wrap:wrap;gap:2rem}
+.stat-sep{display:none}
+.hero-content{padding:0 1.5rem}
+.hero-stats{display:none}
+.hero-scroll{left:1.5rem}
+.rooms-header{flex-direction:column;align-items:flex-start;gap:1.5rem}
+.tour-content,.why-grid,.contact-grid{grid-template-columns:1fr}
+.gallery-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:auto}
+.gallery-item:first-child{grid-column:span 2}
+.footer-grid{grid-template-columns:1fr 1fr;gap:2.5rem}
+.form-row{grid-template-columns:1fr}
+.hero-headline{font-size:2.8rem}
+.booking-container{padding:2rem 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="nav-logo">
+    <span class="nav-logo-main">ROYALSTAY</span>
+    <span class="nav-logo-sub">Hotels & Resorts</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#rooms">Rooms</a></li>
+    <li><a href="#facilities">Facilities</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#booking">Booking</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-book-btn" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Reserve Now</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <canvas id="hero-canvas"></canvas>
+  
+  <div class="float-icon fi1">✦</div>
+  <div class="float-icon fi2">◆</div>
+  <div class="float-icon fi3">✧</div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow reveal">Award-Winning Luxury Collection</div>
+    <h1 class="hero-headline reveal reveal-delay-1">Experience <em>Luxury</em> Beyond Expectations</h1>
+    <p class="hero-sub reveal reveal-delay-2">Discover premium accommodations, exceptional hospitality, and unforgettable experiences at Dubai Marina's most prestigious address.</p>
+    <div class="hero-btns reveal reveal-delay-3">
+      <button class="btn-primary" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Book Now</button>
+      <button class="btn-ghost" onclick="document.getElementById('rooms').scrollIntoView({behavior:'smooth'})">Explore Rooms</button>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span class="scroll-line"></span>
+    <span>Scroll to discover</span>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">500+</div>
+      <div class="hero-stat-label">Luxury Rooms</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">50K+</div>
+      <div class="hero-stat-label">Happy Guests</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">25+</div>
+      <div class="hero-stat-label">Branches</div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item reveal">
+    <div class="stat-num"><span class="count" data-target="500">0</span><span class="stat-plus">+</span></div>
+    <div class="stat-label">Luxury Rooms</div>
+  </div>
+  <div class="stat-sep"></div>
+  <div class="stat-item reveal reveal-delay-1">
+    <div class="stat-num"><span class="count" data-target="50000">0</span><span class="stat-plus">+</span></div>
+    <div class="stat-label">Happy Guests</div>
+  </div>
+  <div class="stat-sep"></div>
+  <div class="stat-item reveal reveal-delay-2">
+    <div class="stat-num"><span class="count" data-target="25">0</span><span class="stat-plus">+</span></div>
+    <div class="stat-label">Hotel Branches</div>
+  </div>
+  <div class="stat-sep"></div>
+  <div class="stat-item reveal reveal-delay-3">
+    <div class="stat-num"><span class="count" data-target="15">0</span><span class="stat-plus">+</span></div>
+    <div class="stat-label">Years Experience</div>
+  </div>
+</div>
+
+<!-- ROOMS -->
+<section id="rooms">
+  <div class="rooms-header">
+    <div>
+      <div class="section-eyebrow reveal">Our Accommodations</div>
+      <h2 class="section-title reveal reveal-delay-1">Rooms & <em style="font-style:italic">Suites</em></h2>
+      <p class="section-desc reveal reveal-delay-2">Each space has been meticulously designed to transcend the ordinary — blending architectural artistry with the warmth of genuine hospitality.</p>
+    </div>
+    <button class="btn-ghost reveal" style="white-space:nowrap;align-self:flex-end">View All Rooms</button>
+  </div>
+  <div class="rooms-grid">
+    <div class="room-card reveal">
+      <div class="room-img">
+        <span class="room-img-placeholder">🛏</span>
+        <div class="room-img-overlay"></div>
+        <div class="room-badge">Popular</div>
+      </div>
+      <div class="room-body">
+        <div class="room-cat">Standard</div>
+        <div class="room-name">Deluxe Room</div>
+        <div class="room-features">
+          <span class="room-feature">42 m²</span>
+          <span class="room-feature">King Bed</span>
+          <span class="room-feature">WiFi</span>
+          <span class="room-feature">AC</span>
+          <span class="room-feature">Room Service</span>
+        </div>
+        <div class="room-footer">
+          <div class="room-price">
+            <span class="room-price-amt">$199</span>
+            <span class="room-price-per">/night</span>
+          </div>
+          <button class="room-book-btn" onclick="selectRoom('Deluxe Room',199)">Book Now</button>
+        </div>
+      </div>
+    </div>
+    <div class="room-card reveal reveal-delay-1">
+      <div class="room-img">
+        <span class="room-img-placeholder">🏙</span>
+        <div class="room-img-overlay"></div>
+        <div class="room-badge">Best Value</div>
+      </div>
+      <div class="room-body">
+        <div class="room-cat">Business</div>
+        <div class="room-name">Executive Suite</div>
+        <div class="room-features">
+          <span class="room-feature">85 m²</span>
+          <span class="room-feature">King Bed</span>
+          <span class="room-feature">WiFi</span>
+          <span class="room-feature">AC</span>
+          <span class="room-feature">Lounge</span>
+        </div>
+        <div class="room-footer">
+          <div class="room-price">
+            <span class="room-price-amt">$399</span>
+            <span class="room-price-per">/night</span>
+          </div>
+          <button class="room-book-btn" onclick="selectRoom('Executive Suite',399)">Book Now</button>
+        </div>
+      </div>
+    </div>
+    <div class="room-card reveal reveal-delay-2">
+      <div class="room-img">
+        <span class="room-img-placeholder">👑</span>
+        <div class="room-img-overlay"></div>
+        <div class="room-badge" style="background:transparent;border:1px solid var(--gold);color:var(--gold)">Exclusive</div>
+      </div>
+      <div class="room-body">
+        <div class="room-cat">Flagship</div>
+        <div class="room-name">Presidential Suite</div>
+        <div class="room-features">
+          <span class="room-feature">320 m²</span>
+          <span class="room-feature">2 Bedrooms</span>
+          <span class="room-feature">Butler</span>
+          <span class="room-feature">Private Pool</span>
+        </div>
+        <div class="room-footer">
+          <div class="room-price">
+            <span class="room-price-amt">$899</span>
+            <span class="room-price-per">/night</span>
+          </div>
+          <button class="room-book-btn" onclick="selectRoom('Presidential Suite',899)">Book Now</button>
+        </div>
+      </div>
+    </div>
+    <div class="room-card reveal reveal-delay-3">
+      <div class="room-img">
+        <span class="room-img-placeholder">🏡</span>
+        <div class="room-img-overlay"></div>
+        <div class="room-badge">Family</div>
+      </div>
+      <div class="room-body">
+        <div class="room-cat">Family</div>
+        <div class="room-name">Family Suite</div>
+        <div class="room-features">
+          <span class="room-feature">165 m²</span>
+          <span class="room-feature">2 Bedrooms</span>
+          <span class="room-feature">Kitchenette</span>
+          <span class="room-feature">Kids Area</span>
+        </div>
+        <div class="room-footer">
+          <div class="room-price">
+            <span class="room-price-amt">$499</span>
+            <span class="room-price-per">/night</span>
+          </div>
+          <button class="room-book-btn" onclick="selectRoom('Family Suite',499)">Book Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FACILITIES -->
+<section id="facilities">
+  <div style="text-align:center;margin-bottom:0">
+    <div class="section-eyebrow reveal" style="text-align:center">World-Class Amenities</div>
+    <h2 class="section-title reveal reveal-delay-1" style="text-align:center">Hotel <em style="font-style:italic">Facilities</em></h2>
+    <p class="section-desc reveal reveal-delay-2" style="margin:0 auto;text-align:center">Every amenity curated to elevate your stay beyond imagination — where comfort meets unparalleled luxury.</p>
+  </div>
+  <div class="fac-grid">
+    <div class="fac-card reveal"><div class="fac-icon">🏊</div><div class="fac-name">Swimming Pool</div><div class="fac-desc">Infinity pool overlooking the Dubai Marina skyline, open 24 hours with poolside butler service.</div></div>
+    <div class="fac-card reveal reveal-delay-1"><div class="fac-icon">🧖</div><div class="fac-name">Spa & Wellness</div><div class="fac-desc">Award-winning spa featuring 18 treatment rooms, hammam, aromatherapy, and holistic wellness programs.</div></div>
+    <div class="fac-card reveal reveal-delay-2"><div class="fac-icon">🍽</div><div class="fac-name">Fine Dining</div><div class="fac-desc">Three signature restaurants serving Michelin-star cuisine — French, Japanese, and contemporary Arabic.</div></div>
+    <div class="fac-card reveal reveal-delay-3"><div class="fac-icon">🏋</div><div class="fac-name">Fitness Center</div><div class="fac-desc">State-of-the-art gymnasium with personal trainers, yoga studio, and panoramic city views.</div></div>
+    <div class="fac-card reveal"><div class="fac-icon">🏛</div><div class="fac-name">Conference Hall</div><div class="fac-desc">Five world-class event venues accommodating up to 2,000 guests with advanced AV technology.</div></div>
+    <div class="fac-card reveal reveal-delay-1"><div class="fac-icon">✈</div><div class="fac-name">Airport Transfer</div><div class="fac-desc">Complimentary Rolls-Royce chauffeur service to and from Dubai International Airport.</div></div>
+    <div class="fac-card reveal reveal-delay-2"><div class="fac-icon">📶</div><div class="fac-name">Free WiFi</div><div class="fac-desc">Ultra-fast fibre connectivity throughout the property — 10 Gbps dedicated bandwidth.</div></div>
+    <div class="fac-card reveal reveal-delay-3"><div class="fac-icon">🚗</div><div class="fac-name">Valet Parking</div><div class="fac-desc">Complimentary valet parking for all guests with secure underground facilities for 800 vehicles.</div></div>
+  </div>
+</section>
+
+<!-- 3D TOUR -->
+<section id="tour">
+  <canvas id="tour-canvas"></canvas>
+  <span class="tour-3d-label tl">Interactive 3D Showcase</span>
+  <div class="tour-content">
+    <div>
+      <div class="section-eyebrow reveal">Immersive Experience</div>
+      <h2 class="section-title reveal reveal-delay-1">Take a Virtual <em style="font-style:italic">3D Tour</em></h2>
+      <p class="section-desc reveal reveal-delay-2">Navigate through our architecturally stunning property. Move your cursor to explore — our hotel was designed by Pritzker Prize-winning architect Sir Norman Blake.</p>
+      <div class="tour-features">
+        <div class="tour-feat reveal reveal-delay-1">
+          <span class="tour-feat-dot"></span>
+          <div>
+            <div class="tour-feat-title">Architectural Masterpiece</div>
+            <div class="tour-feat-text">A 73-storey tower of crystalline glass and hand-laid Italian marble, rising above the Dubai Marina waterfront.</div>
+          </div>
+        </div>
+        <div class="tour-feat reveal reveal-delay-2">
+          <span class="tour-feat-dot"></span>
+          <div>
+            <div class="tour-feat-title">Panoramic Sky Terrace</div>
+            <div class="tour-feat-text">Experience 360° views of the Arabian Gulf, Palm Jumeirah, and the glittering city skyline from our exclusive 71st-floor terrace.</div>
+          </div>
+        </div>
+        <div class="tour-feat reveal reveal-delay-3">
+          <span class="tour-feat-dot"></span>
+          <div>
+            <div class="tour-feat-title">Curated Interiors</div>
+            <div class="tour-feat-text">Each space designed by Yabu Pushelberg, featuring hand-selected artworks from over 40 international artists.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="height:420px;position:relative;z-index:2" id="building-display"></div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking" style="text-align:center">
+  <div class="section-eyebrow reveal">Reserve Your Stay</div>
+  <h2 class="section-title reveal reveal-delay-1">Make a <em style="font-style:italic">Reservation</em></h2>
+  <p class="section-desc reveal reveal-delay-2" style="margin:0 auto 0">Select your dates and let us craft an unforgettable experience tailored to your preferences.</p>
+  <div class="booking-container reveal">
+    <div class="booking-grid">
+      <div class="booking-field">
+        <label class="booking-label">Check-In Date</label>
+        <input type="date" class="booking-input" id="checkin" onchange="calcPrice()">
+      </div>
+      <div class="booking-field">
+        <label class="booking-label">Check-Out Date</label>
+        <input type="date" class="booking-input" id="checkout" onchange="calcPrice()">
+      </div>
+      <div class="booking-field">
+        <label class="booking-label">Guests</label>
+        <select class="booking-input" id="guests">
+          <option>1 Guest</option>
+          <option selected>2 Guests</option>
+          <option>3 Guests</option>
+          <option>4 Guests</option>
+          <option>5+ Guests</option>
+        </select>
+      </div>
+      <div class="booking-field">
+        <label class="booking-label">Room Type</label>
+        <select class="booking-input" id="roomtype" onchange="calcPrice()">
+          <option value="199">Deluxe Room — $199/night</option>
+          <option value="399">Executive Suite — $399/night</option>
+          <option value="899">Presidential Suite — $899/night</option>
+          <option value="499">Family Suite — $499/night</option>
+        </select>
+      </div>
+    </div>
+    <div class="booking-total">
+      <div>
+        <div class="booking-total-label">Total Estimate</div>
+        <div class="booking-nights" id="nights-label">Select dates to calculate</div>
+      </div>
+      <div class="booking-total-price" id="total-price">—</div>
+    </div>
+    <button class="btn-primary" onclick="confirmBooking()" style="width:100%;justify-content:center">Confirm Reservation</button>
+    <p style="font-size:0.65rem;color:var(--text-dim);margin-top:1rem;letter-spacing:1px">Free cancellation up to 48 hours before check-in · Secure SSL payment · Best rate guarantee</p>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div style="text-align:center">
+    <div class="section-eyebrow reveal">Guest Voices</div>
+    <h2 class="section-title reveal reveal-delay-1" style="text-align:center">What Our <em style="font-style:italic">Guests</em> Say</h2>
+  </div>
+  <div class="test-grid">
+    <div class="test-card reveal">
+      <div class="stars">★★★★★</div>
+      <p class="test-text">"An extraordinary experience that transcended every expectation I held. The attention to detail is simply breathtaking — from the handwritten welcome note to the bespoke pillow menu."</p>
+      <div class="test-author">
+        <div class="test-avatar">JA</div>
+        <div>
+          <div class="test-name">John Anderson</div>
+          <div class="test-role">CEO · New York</div>
+        </div>
+      </div>
+    </div>
+    <div class="test-card reveal reveal-delay-1">
+      <div class="stars">★★★★★</div>
+      <p class="test-text">"The best hotel experience I have ever had — and I've stayed in properties across four continents. RoyalStay redefined what luxury hospitality means to me permanently."</p>
+      <div class="test-author">
+        <div class="test-avatar">SW</div>
+        <div>
+          <div class="test-name">Sarah Williams</div>
+          <div class="test-role">Architect · London</div>
+        </div>
+      </div>
+    </div>
+    <div class="test-card reveal reveal-delay-2">
+      <div class="stars">★★★★★</div>
+      <p class="test-text">"Highly recommended for discerning travellers who refuse to compromise. The presidential suite views of the Marina are unlike anything I have experienced anywhere in the world."</p>
+      <div class="test-author">
+        <div class="test-avatar">MB</div>
+        <div>
+          <div class="test-name">Michael Brown</div>
+          <div class="test-role">Investor · Singapore</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div style="text-align:center;margin-bottom:0">
+    <div class="section-eyebrow reveal">Visual Stories</div>
+    <h2 class="section-title reveal reveal-delay-1" style="text-align:center">Hotel <em style="font-style:italic">Gallery</em></h2>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item reveal"><span class="gallery-placeholder">🏙</span><div class="gallery-overlay"></div><span class="gallery-label">Hotel Exterior</span></div>
+    <div class="gallery-item reveal reveal-delay-1"><span class="gallery-placeholder">🛏</span><div class="gallery-overlay"></div><span class="gallery-label">Luxury Rooms</span></div>
+    <div class="gallery-item reveal reveal-delay-2"><span class="gallery-placeholder">🍽</span><div class="gallery-overlay"></div><span class="gallery-label">Fine Dining</span></div>
+    <div class="gallery-item reveal reveal-delay-1"><span class="gallery-placeholder">🏊</span><div class="gallery-overlay"></div><span class="gallery-label">Swimming Pool</span></div>
+    <div class="gallery-item reveal reveal-delay-2"><span class="gallery-placeholder">🧖</span><div class="gallery-overlay"></div><span class="gallery-label">Spa & Wellness</span></div>
+    <div class="gallery-item reveal reveal-delay-3"><span class="gallery-placeholder">🏛</span><div class="gallery-overlay"></div><span class="gallery-label">Conference Hall</span></div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="why-grid">
+    <div>
+      <div class="section-eyebrow reveal">Our Promise</div>
+      <h2 class="section-title reveal reveal-delay-1">Why Choose <em style="font-style:italic">RoyalStay</em></h2>
+      <p class="section-desc reveal reveal-delay-2">We don't just offer accommodation — we orchestrate memories that endure long after departure.</p>
+      <div class="why-items" style="margin-top:2.5rem">
+        <div class="why-item reveal"><div class="why-icon">👑</div><div><div class="why-text-title">Premium Luxury Experience</div><div class="why-text-desc">Curated spaces and personalised service that anticipates your every need before you express it.</div></div></div>
+        <div class="why-item reveal reveal-delay-1"><div class="why-icon">💎</div><div><div class="why-text-title">Best Price Guarantee</div><div class="why-text-desc">Book directly and receive the best available rate — guaranteed, plus exclusive member-only privileges.</div></div></div>
+        <div class="why-item reveal reveal-delay-2"><div class="why-icon">🌙</div><div><div class="why-text-title">24/7 Concierge Support</div><div class="why-text-desc">A dedicated team of specialists available around the clock, from private dining to yacht charters.</div></div></div>
+        <div class="why-item reveal reveal-delay-3"><div class="why-icon">🔒</div><div><div class="why-text-title">Secure Online Booking</div><div class="why-text-desc">Bank-level encryption and PCI-compliant payment processing for your complete peace of mind.</div></div></div>
+      </div>
+    </div>
+    <div class="why-visual reveal">
+      <div class="why-visual-inner">
+        <div class="why-accent" style="top:20%;left:20%"></div>
+        <div style="text-align:center;z-index:1;padding:2rem">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:5rem;color:var(--gold);opacity:.8;line-height:1">✦</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--text);margin:1rem 0 .5rem;font-style:italic">Award Winning</div>
+          <div style="font-size:0.65rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold)">Hospitality</div>
+          <div style="margin:2rem 0;display:flex;flex-direction:column;gap:1rem">
+            <div style="background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);padding:1rem 1.5rem;display:flex;justify-content:space-between">
+              <span style="font-size:0.7rem;color:var(--text-muted)">Forbes Travel Guide</span>
+              <span style="font-size:0.7rem;color:var(--gold)">★★★★★</span>
+            </div>
+            <div style="background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);padding:1rem 1.5rem;display:flex;justify-content:space-between">
+              <span style="font-size:0.7rem;color:var(--text-muted)">Condé Nast Traveller</span>
+              <span style="font-size:0.7rem;color:var(--gold)">Gold List</span>
+            </div>
+            <div style="background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.2);padding:1rem 1.5rem;display:flex;justify-content:space-between">
+              <span style="font-size:0.7rem;color:var(--text-muted)">World Travel Awards</span>
+              <span style="font-size:0.7rem;color:var(--gold)">Best Hotel 2024</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-eyebrow reveal">Get In Touch</div>
+  <h2 class="section-title reveal reveal-delay-1">Contact <em style="font-style:italic">Us</em></h2>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <div class="contact-item reveal">
+        <span class="contact-icon">📍</span>
+        <div>
+          <div class="contact-item-title">Address</div>
+          <div class="contact-item-val">Dubai Marina Tower, Sheikh Zayed Road<br>Dubai Marina, UAE 00000</div>
+        </div>
+      </div>
+      <div class="contact-item reveal reveal-delay-1">
+        <span class="contact-icon">📞</span>
+        <div>
+          <div class="contact-item-title">Phone</div>
+          <div class="contact-item-val">+971 555 123 456<br>+971 555 654 321</div>
+        </div>
+      </div>
+      <div class="contact-item reveal reveal-delay-2">
+        <span class="contact-icon">✉</span>
+        <div>
+          <div class="contact-item-title">Email</div>
+          <div class="contact-item-val">info@royalstayhotels.com<br>reservations@royalstayhotels.com</div>
+        </div>
+      </div>
+      <div class="contact-item reveal reveal-delay-3">
+        <span class="contact-icon">🕐</span>
+        <div>
+          <div class="contact-item-title">Concierge Hours</div>
+          <div class="contact-item-val">24 Hours · 7 Days a Week<br>Check-in: 3 PM · Check-out: 12 PM</div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form reveal">
+      <div class="form-row">
+        <input type="text" class="contact-input" placeholder="Your Name">
+        <input type="email" class="contact-input" placeholder="Email Address">
+      </div>
+      <input type="text" class="contact-input" placeholder="Subject">
+      <textarea class="contact-input" placeholder="Your message..."></textarea>
+      <button class="btn-primary" style="align-self:flex-start">Send Message</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">ROYALSTAY</div>
+      <div class="footer-brand-sub">Hotels & Resorts</div>
+      <p class="footer-desc">For over 15 years, RoyalStay has set the standard for ultra-luxury hospitality across the world's most coveted destinations — where every stay becomes a timeless story.</p>
+      <div class="footer-newsletter" style="margin-top:1.5rem">
+        <input type="email" placeholder="Your email address">
+        <button>Subscribe</button>
+      </div>
+    </div>
+    <div>
+      <div class="footer-title">Quick Links</div>
+      <ul class="footer-links">
+        <li><a href="#rooms">Rooms & Suites</a></li>
+        <li><a href="#facilities">Hotel Facilities</a></li>
+        <li><a href="#gallery">Photo Gallery</a></li>
+        <li><a href="#booking">Make a Reservation</a></li>
+        <li><a href="#contact">Contact Us</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-title">Room Categories</div>
+      <ul class="footer-links">
+        <li><a href="#">Deluxe Rooms</a></li>
+        <li><a href="#">Executive Suites</a></li>
+        <li><a href="#">Presidential Suite</a></li>
+        <li><a href="#">Family Suites</a></li>
+        <li><a href="#">Penthouse</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-title">Hotel Services</div>
+      <ul class="footer-links">
+        <li><a href="#">Spa & Wellness</a></li>
+        <li><a href="#">Fine Dining</a></li>
+        <li><a href="#">Event Spaces</a></li>
+        <li><a href="#">Airport Transfer</a></li>
+        <li><a href="#">Concierge</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 RoyalStay Hotels & Resorts. All rights reserved.</div>
+    <div class="social-links">
+      <a href="#" class="social-link">in</a>
+      <a href="#" class="social-link">f</a>
+      <a href="#" class="social-link">ig</a>
+      <a href="#" class="social-link">tw</a>
+    </div>
+  </div>
+</footer>
+
+<!-- CONFIRMATION MODAL -->
+<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:9999;align-items:center;justify-content:center">
+  <div style="background:var(--dark2);border:1px solid var(--glass-border);padding:3rem;max-width:480px;width:90%;position:relative;text-align:center">
+    <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent)"></div>
+    <div style="font-size:3rem;margin-bottom:1rem">✦</div>
+    <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--gold);margin-bottom:.5rem">Reservation Confirmed</h3>
+    <p style="font-size:0.75rem;color:var(--text-muted);line-height:1.8;margin-bottom:2rem" id="modal-details">Your reservation details will appear here.</p>
+    <button onclick="document.getElementById('modal').style.display='none'" class="btn-primary">Close</button>
+  </div>
+</div>
+
+<script>
+// NAV scroll effect
+window.addEventListener('scroll',()=>{
+  const nav=document.getElementById('main-nav');
+  nav.classList.toggle('scrolled',window.scrollY>80);
+});
+
+// Reveal on scroll
+const reveals=document.querySelectorAll('.reveal');
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);}
+  });
+},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+reveals.forEach(el=>observer.observe(el));
+
+// Count animation
+function animCount(el,target,duration){
+  let start=0,startTime=null;
+  const step=(t)=>{
+    if(!startTime)startTime=t;
+    const progress=Math.min((t-startTime)/duration,1);
+    const val=Math.floor(progress*(target-start)+start);
+    el.textContent=val>=1000?(val/1000).toFixed(1)+'K':val;
+    if(progress<1)requestAnimationFrame(step);
+    else el.textContent=target>=1000?(target/1000).toFixed(0)+'K':target;
+  };
+  requestAnimationFrame(step);
+}
+const countObserver=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const target=parseInt(e.target.dataset.target);
+      animCount(e.target,target,1800);
+      countObserver.unobserve(e.target);
+    }
+  });
+},{threshold:0.5});
+document.querySelectorAll('.count').forEach(el=>countObserver.observe(el));
+
+// Hero Three.js — particles + floating geometry
+(function(){
+  const canvas=document.getElementById('hero-canvas');
+  if(!window.THREE)return;
+  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(60,window.innerWidth/window.innerHeight,0.1,1000);
+  camera.position.z=5;
+  
+  const resize=()=>{
+    renderer.setSize(canvas.offsetWidth,canvas.offsetHeight);
+    camera.aspect=canvas.offsetWidth/canvas.offsetHeight;
+    camera.updateProjectionMatrix();
+  };
+  resize();
+  window.addEventListener('resize',resize);
+  
+  // Gold particles
+  const pCount=200;
+  const positions=new Float32Array(pCount*3);
+  for(let i=0;i<pCount;i++){
+    positions[i*3]=(Math.random()-0.5)*20;
+    positions[i*3+1]=(Math.random()-0.5)*20;
+    positions[i*3+2]=(Math.random()-0.5)*10-2;
+  }
+  const pGeo=new THREE.BufferGeometry();
+  pGeo.setAttribute('position',new THREE.BufferAttribute(positions,3));
+  const pMat=new THREE.PointsMaterial({color:0xC9A84C,size:0.04,transparent:true,opacity:0.6});
+  scene.add(new THREE.Points(pGeo,pMat));
+  
+  // Floating diamond shape
+  const dGeo=new THREE.OctahedronGeometry(0.6,0);
+  const dMat=new THREE.MeshBasicMaterial({color:0xC9A84C,wireframe:true,transparent:true,opacity:0.3});
+  const diamond=new THREE.Mesh(dGeo,dMat);
+  diamond.position.set(3,1,-1);
+  scene.add(diamond);
+  
+  const dGeo2=new THREE.OctahedronGeometry(0.3,0);
+  const dMat2=new THREE.MeshBasicMaterial({color:0xE8C97A,wireframe:true,transparent:true,opacity:0.2});
+  const diamond2=new THREE.Mesh(dGeo2,dMat2);
+  diamond2.position.set(-3,-1,-2);
+  scene.add(diamond2);
+
+  // Light lines - ring
+  const ringGeo=new THREE.RingGeometry(2,2.02,64);
+  const ringMat=new THREE.MeshBasicMaterial({color:0xC9A84C,transparent:true,opacity:0.1,side:THREE.DoubleSide});
+  const ring=new THREE.Mesh(ringGeo,ringMat);
+  ring.position.set(3,.5,-2);
+  scene.add(ring);
+
+  let mx=0,my=0;
+  document.addEventListener('mousemove',(e)=>{mx=(e.clientX/window.innerWidth-.5)*2;my=-(e.clientY/window.innerHeight-.5)*2;});
+
+  const animate=()=>{
+    requestAnimationFrame(animate);
+    diamond.rotation.y+=0.008;diamond.rotation.x+=0.003;
+    diamond2.rotation.y-=0.006;diamond2.rotation.x+=0.005;
+    ring.rotation.z+=0.003;
+    camera.position.x+=(mx*0.3-camera.position.x)*0.05;
+    camera.position.y+=(my*0.2-camera.position.y)*0.05;
+    camera.lookAt(0,0,0);
+    renderer.render(scene,camera);
+  };
+  animate();
+})();
+
+// Tour section Three.js — hotel building
+(function(){
+  const container=document.getElementById('building-display');
+  if(!container||!window.THREE)return;
+  const w=container.offsetWidth||400,h=container.offsetHeight||400;
+  const renderer=new THREE.WebGLRenderer({alpha:true,antialias:true});
+  renderer.setSize(w,h);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+  container.appendChild(renderer.domElement);
+  
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(45,w/h,0.1,100);
+  camera.position.set(4,5,8);
+  camera.lookAt(0,2,0);
+  
+  const goldMat=new THREE.MeshBasicMaterial({color:0xC9A84C,wireframe:false,transparent:true,opacity:0.85});
+  const goldWire=new THREE.MeshBasicMaterial({color:0xE8C97A,wireframe:true,transparent:true,opacity:0.3});
+  const darkMat=new THREE.MeshBasicMaterial({color:0x0F0F1A,transparent:true,opacity:0.9});
+  
+  const group=new THREE.Group();
+  
+  // Main tower
+  const tower=new THREE.BoxGeometry(1.2,6,1.2);
+  const towerMesh=new THREE.Mesh(tower,darkMat);
+  towerMesh.position.y=3;
+  group.add(towerMesh);
+  const towerWire=new THREE.Mesh(tower,goldWire);
+  towerWire.position.y=3;
+  group.add(towerWire);
+  
+  // Podium base
+  const podium=new THREE.BoxGeometry(2.5,1,2.5);
+  const podiumMesh=new THREE.Mesh(podium,darkMat);
+  podiumMesh.position.y=0.5;
+  group.add(podiumMesh);
+  const podiumWire=new THREE.Mesh(podium,goldWire);
+  podiumWire.position.y=0.5;
+  group.add(podiumWire);
+  
+  // Crown/top feature
+  const crown=new THREE.CylinderGeometry(0.3,0.6,0.8,8);
+  const crownMesh=new THREE.Mesh(crown,new THREE.MeshBasicMaterial({color:0xC9A84C,transparent:true,opacity:0.7}));
+  crownMesh.position.y=6.4;
+  group.add(crownMesh);
+  
+  // Windows
+  for(let floor=0;floor<10;floor++){
+    for(let side=0;side<4;side++){
+      const wGeo=new THREE.PlaneGeometry(0.18,0.22);
+      const wMat=new THREE.MeshBasicMaterial({color:0xC9A84C,transparent:true,opacity:Math.random()*.5+.1,side:THREE.DoubleSide});
+      const w=new THREE.Mesh(wGeo,wMat);
+      const angle=(side/4)*Math.PI*2;
+      const r=0.62;
+      w.position.set(Math.cos(angle)*r,0.8+floor*0.48,Math.sin(angle)*r);
+      w.rotation.y=angle;
+      group.add(w);
+    }
+  }
+  
+  // Floating rings around building
+  for(let i=0;i<3;i++){
+    const rGeo=new THREE.RingGeometry(1.8+i*.4,1.85+i*.4,32);
+    const rMat=new THREE.MeshBasicMaterial({color:0xC9A84C,transparent:true,opacity:0.06-i*.01,side:THREE.DoubleSide});
+    const ring=new THREE.Mesh(rGeo,rMat);
+    ring.position.y=1+i*2;
+    ring.rotation.x=Math.PI/2;
+    group.add(ring);
+  }
+  
+  scene.add(group);
+  
+  // Ground plane
+  const groundGeo=new THREE.PlaneGeometry(20,20);
+  const groundMat=new THREE.MeshBasicMaterial({color:0x0A0A0F,transparent:true,opacity:0.5});
+  const ground=new THREE.Mesh(groundGeo,groundMat);
+  ground.rotation.x=-Math.PI/2;
+  scene.add(ground);
+  
+  // Grid lines on ground
+  const gridHelper=new THREE.GridHelper(10,10,0x1A1A35,0x1A1A35);
+  scene.add(gridHelper);
+  
+  let mouseX=0,mouseY=0;
+  container.addEventListener('mousemove',(e)=>{
+    const rect=container.getBoundingClientRect();
+    mouseX=(e.clientX-rect.left)/rect.width-.5;
+    mouseY=(e.clientY-rect.top)/rect.height-.5;
+  });
+  
+  const animate=()=>{
+    requestAnimationFrame(animate);
+    group.rotation.y+=0.004;
+    group.rotation.y+=mouseX*.02;
+    group.rotation.x+=(-mouseY*.01-group.rotation.x)*.05;
+    // Window flicker
+    const t=Date.now()*.001;
+    group.children.forEach((c,i)=>{
+      if(c.material&&c.material.opacity>.05&&c.material.opacity<0.7&&i>5){
+        c.material.opacity=0.1+Math.abs(Math.sin(t+i*.3))*.35;
+      }
+    });
+    renderer.render(scene,camera);
+  };
+  animate();
+})();
+
+// Booking logic
+function selectRoom(name,price){
+  document.getElementById('roomtype').value=price;
+  calcPrice();
+  document.getElementById('booking').scrollIntoView({behavior:'smooth'});
+}
+
+function calcPrice(){
+  const ci=document.getElementById('checkin').value;
+  const co=document.getElementById('checkout').value;
+  const price=parseInt(document.getElementById('roomtype').value)||199;
+  if(ci&&co){
+    const d1=new Date(ci),d2=new Date(co);
+    const nights=Math.max(0,Math.round((d2-d1)/(1000*60*60*24)));
+    if(nights>0){
+      const total=nights*price;
+      document.getElementById('total-price').textContent='$'+total.toLocaleString();
+      document.getElementById('nights-label').textContent=nights+' night'+(nights>1?'s':'')+' × $'+price+'/night';
+    } else {
+      document.getElementById('total-price').textContent='—';
+      document.getElementById('nights-label').textContent='Check-out must be after check-in';
+    }
+  }
+}
+
+function confirmBooking(){
+  const ci=document.getElementById('checkin').value;
+  const co=document.getElementById('checkout').value;
+  const room=document.getElementById('roomtype').options[document.getElementById('roomtype').selectedIndex].text;
+  const guests=document.getElementById('guests').value;
+  const total=document.getElementById('total-price').textContent;
+  if(!ci||!co){alert('Please select check-in and check-out dates.');return;}
+  const ref='RS-'+Math.random().toString(36).substr(2,8).toUpperCase();
+  document.getElementById('modal-details').innerHTML=
+    `<strong style="color:var(--gold)">Booking Reference: ${ref}</strong><br><br>`+
+    `${room}<br>${guests}<br>Check-in: ${new Date(ci).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}<br>`+
+    `Check-out: ${new Date(co).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}<br>`+
+    `<br>Total: <span style="color:var(--gold);font-size:1.1rem">${total}</span><br><br>`+
+    `<span style="font-size:0.7rem;color:var(--text-dim)">A confirmation will be sent to your email address. Our concierge team will contact you within 2 hours.</span>`;
+  document.getElementById('modal').style.display='flex';
+}
+
+// Set default dates
+const today=new Date();
+const tomorrow=new Date(today);tomorrow.setDate(today.getDate()+1);
+const nextWeek=new Date(today);nextWeek.setDate(today.getDate()+4);
+document.getElementById('checkin').value=tomorrow.toISOString().split('T')[0];
+document.getElementById('checkout').value=nextWeek.toISOString().split('T')[0];
+calcPrice();
+</script>
+</body>
+</html>
